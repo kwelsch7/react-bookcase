@@ -5,7 +5,7 @@ const path = require('path'),
     webpackConfig = require('./webpack.config.js'),
     app = express(),
     port = process.env.PORT || 3000;
-app.listen(port, () => { console.log(`App is listening on port ${port}`) });
+app.listen(port, () => { console.log(`App is listening on http://localhost:${port}`) });
 app.get('/', (req, res) => {
    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });

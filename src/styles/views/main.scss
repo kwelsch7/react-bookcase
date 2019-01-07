@@ -1,6 +1,10 @@
 @import '../variables.scss';
 
-.container {
+#root {
+  background-color: $secondary-background;
+}
+
+.container-fluid {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
