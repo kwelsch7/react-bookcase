@@ -2,6 +2,17 @@
 @import 'components';
 @import 'views';
 
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Josefin+Sans');
+
+body {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.nav-link, .navbar-brand {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
 .navbar-brand {
     font-size: 1.75rem;
 }
