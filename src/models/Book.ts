@@ -1,7 +1,7 @@
 export interface BookSearchResult {
   kind: string;
   totalItems: number;
-  items: Book[];
+  items: SearchResultItem[];
 }
 
 export interface SearchResultItem {
