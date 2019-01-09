@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { Book, BookSearchResult } from '../models'
 
-const key = 'AIzaSyAG6nt6QJVNIkDvfU2qelIu3jNoQx9UagI';
+const key = '';
 
 export const searchBooks = (query: string, page: number, pageSize: number): Promise<Book[]> => (
   new Promise((resolve, reject) => {
