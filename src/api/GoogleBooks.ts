@@ -1,11 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
+import { GOOGLE_BOOKS_KEY } from '../constants';
 import { Book, BookSearchResult } from '../models'
-
-const key = '';
 
 export const searchBooks = (query: string, page: number, pageSize: number): Promise<Book[]> => (
   new Promise((resolve, reject) => {
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${key}`)
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${GOOGLE_BOOKS_KEY}`)
       .then(({ data }: AxiosResponse) => {
         const results: BookSearchResult = data;
         const books = results.items.map(item => item.volumeInfo);
@@ -20,7 +19,7 @@ export const searchBooks = (query: string, page: number, pageSize: number): Prom
 export const advancedSearch = (page: number, pageSize: number, title?: string, author?: string, isbn?: string): Promise<Book[]> => (
   new Promise((resolve, reject) => {
     const query = buildParamString(title, author, isbn);
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${key}`)
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${GOOGLE_BOOKS_KEY}`)
       .then(({ data }: AxiosResponse) => {
         const results: BookSearchResult = data;
         const books = results.items.map(item => item.volumeInfo);
