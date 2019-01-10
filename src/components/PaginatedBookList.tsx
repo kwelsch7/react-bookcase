@@ -16,7 +16,9 @@ export const PaginatedBookList: React.SFC<BookListProps> = ({ active, books, sea
             {books.map((book, index) => (
               <li className={`list-group-item${book === active ? ' active' : ''}`} key={index}>
                 <h4>{book.title}</h4>
-                <span className="text-muted">{book.authors}</span>
+                {book.authors &&
+                  <span className="text-muted">{book.authors.join(', ')}</span>
+                }
               </li>
             ))}
           </React.Fragment>

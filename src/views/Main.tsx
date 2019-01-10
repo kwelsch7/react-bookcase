@@ -1,24 +1,24 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
 import { Footer, Header } from '../components';
 import { AboutPage, AddBooksPage } from '../views';
 
-export class Main extends React.PureComponent {
+class Main extends React.PureComponent<RouteComponentProps> {
   render() {
     return (
-      <Router>
-        <div className="container-fluid">
-          <Header/>
-          <div className="content pt-3">
-            <Switch>
-              <Redirect from="/" exact to="/about" />
-              <Route path="/about" component={AboutPage} />
-              <Route path="/add-books" component={AddBooksPage} />
-            </Switch>
-          </div>
-          <Footer/>
+      <div className="container-fluid">
+        <Header activeTab={this.props.location.pathname} />
+        <div className="content">
+          <Switch>
+            <Redirect from="/" exact to="/about" />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/add-books" component={AddBooksPage} />
+          </Switch>
         </div>
-      </Router>
+        <Footer/>
+      </div>
     );
   }
 }
+
+export const MainWithRouter = withRouter(Main);

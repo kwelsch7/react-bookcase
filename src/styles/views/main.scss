@@ -1,7 +1,7 @@
 @import '../variables.scss';
 
 #root {
-  background-color: $secondary-background;
+  background-color: $secondary;
 }
 
 .container-fluid {
@@ -13,5 +13,5 @@
 .content {
   background-color: $content-background;
   flex-grow: 1;
-  padding: 0 1.5rem;
+  padding: 2rem 1.5rem;
 }
