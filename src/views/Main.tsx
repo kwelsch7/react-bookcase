@@ -7,7 +7,7 @@ class Main extends React.PureComponent<RouteComponentProps> {
   render() {
     return (
       <div className="container-fluid">
-        <Header activeTab={this.props.location.pathname} />
+        <Header />
         <div className="content">
           <Switch>
             <Redirect from="/" exact to="/about" />

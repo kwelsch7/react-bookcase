@@ -6,20 +6,21 @@ interface BookListProps {
   books?: Book[];
   active?: Book;
   searchTerm: string;
+  handleListItemClick(clickedBook: Book): void;
 }
 
-export const PaginatedBookList: React.SFC<BookListProps> = ({ active, books, searchTerm }) => (
+export const PaginatedBookList: React.SFC<BookListProps> = ({ active, books, handleListItemClick, searchTerm }) => (
   <ul className="list-unstyled list-group">
     {books
       ? books.length
         ? <React.Fragment>
             {books.map((book, index) => (
-              <li className={`list-group-item${book === active ? ' active' : ''}`} key={index}>
-                <h4>{book.title}</h4>
-                {book.authors &&
-                  <span className="text-muted">{book.authors.join(', ')}</span>
-                }
-              </li>
+              <BookListItem
+                book={book}
+                active={book === active}
+                handleListItemClick={handleListItemClick}
+                key={index}
+              />
             ))}
           </React.Fragment>
         : <li>
@@ -34,3 +35,31 @@ export const PaginatedBookList: React.SFC<BookListProps> = ({ active, books, sea
     }
   </ul>
 );
+
+// To prevent new creation of function on each render:
+// https://codeburst.io/when-to-use-component-or-purecomponent-a60cfad01a81
+interface BookListItemProps {
+  active: boolean;
+  book: Book;
+  handleListItemClick(clickedBook: Book): void;
+}
+
+class BookListItem extends React.PureComponent<BookListItemProps> {
+  constructor(props: BookListItemProps) {
+    super(props);
+  }
+
+  public render() {
+    const { active, book } = this.props;
+     return (
+      <li className={`list-group-item${active ? ' active' : ''}`} onClick={this.handleListItemClick}>
+        <h4>{book.title}</h4>
+        {book.authors &&
+          <span className="text-muted">{book.authors.join(', ')}</span>
+        }
+      </li>
+     );
+  }
+
+  private handleListItemClick = () => this.props.handleListItemClick(this.props.book);
+}
