@@ -46,9 +46,13 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
                     placeholder="Search books..."
                   />
                   <div className="input-group-append">
-                  <button type="submit" className="btn btn-primary" disabled={!query}>
+                  <button
+                    type="submit"
+                    className={`btn btn-primary search-button${query ? ' expanded' : ''}`}
+                    disabled={!query}
+                  >
                     <i className="fas fa-search"/>
-                    {query && <span>Search!</span>}
+                    {/* {query && <span>Search!</span>} */}
                   </button>
                   </div>
                 </div>
@@ -59,7 +63,7 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
             </form>
             {fetchingBooks && <div>Fetching books...</div>}
             {error && <div className="text-danger">Bad stuff happened: {error}</div>}
-            {books && <PaginatedBookList books={books} searchTerm={query} handleListItemClick={this.handleListItemClick} />}
+            {books && <PaginatedBookList books={books} active={selectedBook} searchTerm={query} handleListItemClick={this.handleListItemClick} />}
           </div>
           <div className="col-6">
             <BookViewer book={selectedBook}/>

@@ -8,6 +8,8 @@ export interface SearchResultItem {
   kind: string;
   volumeInfo: Book;
   // There's more, but doesn't seem pertinent
+  // saleInfo
+  // accessInfo
 }
 
 interface ISBNTypes {
@@ -18,7 +20,10 @@ interface ISBNTypes {
 interface ImageLinks {
   smallThumbnail: string;
   thumbnail: string;
-  // is there larger?
+  small?: string;
+  medium?: string;
+  large?: string;
+  extraLarge?: string;
 }
 
 export interface Book {
@@ -30,6 +35,7 @@ export interface Book {
   description: string;
   industryIdentifiers: ISBNTypes[];
   pageCount: number;
+  mainCategory?: string;
   categories: string[];
   averageRating: number;
   ratingsCount: number;

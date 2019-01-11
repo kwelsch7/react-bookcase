@@ -1,0 +1,31 @@
+$bootstrap-btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+.search-button {
+  text-align: left;
+  width: 2.75rem;
+  transition: width 0.15s, $bootstrap-btn-transition;
+
+  &::after {
+    content: '';
+    opacity: 0;
+    transition: opacity 0.15s 0.15s;
+  }
+
+  & .fa-search {
+    padding-right: 0;
+    transition: padding-right 0.15s;
+  }
+
+  &.expanded {
+    width: 6.75rem;
+
+    &::after {
+      content: 'Search!';
+      opacity: 1;
+    }
+
+    & .fa-search {
+      padding-right: 0.5rem;
+    }
+  }
+}
