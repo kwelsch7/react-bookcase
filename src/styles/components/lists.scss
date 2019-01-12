@@ -36,3 +36,35 @@
     }
   }
 }
+
+.search-books-list .list-group-item {
+  display: flex;
+  justify-content: space-between;
+
+  &:hover .quick-option-list {
+    opacity: 1;
+  }
+
+  .quick-option-list {
+    opacity: 0;
+    min-width: 170px;
+  
+    .nav-item:not(:last-child) {
+      margin-right: 1rem;
+    }
+  
+    .quick-option-button {
+      cursor: default;
+      padding: 0.625rem 0.75rem;
+      background-color: lighten($secondary, 15%);
+      border: 1px solid lighten($secondary, 10%);
+      color: $secondary-dark;
+
+      &:hover {
+        background-color: lighten($secondary, 8%);
+        border: 1px solid lighten($secondary, 2%);
+        color: darken($secondary-dark, 6%);
+      }
+    }
+  }
+}

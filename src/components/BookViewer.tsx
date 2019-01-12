@@ -18,7 +18,7 @@ export const BookViewer: React.SFC<BookViewerProps> = ({ book }) => {
   }
 
   return (
-    <div className="card">
+    <div className="card book-viewer">
       <div className="card-body">
         <h4 className="card-title">{book.title}</h4>
         {book.authors &&

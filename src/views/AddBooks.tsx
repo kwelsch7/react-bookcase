@@ -52,7 +52,6 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
                     disabled={!query}
                   >
                     <i className="fas fa-search"/>
-                    {/* {query && <span>Search!</span>} */}
                   </button>
                   </div>
                 </div>
@@ -63,7 +62,7 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
             </form>
             {fetchingBooks && <div>Fetching books...</div>}
             {error && <div className="text-danger">Bad stuff happened: {error}</div>}
-            {books && <PaginatedBookList books={books} active={selectedBook} searchTerm={query} handleListItemClick={this.handleListItemClick} />}
+            {books && <PaginatedBookList books={books} activeBook={selectedBook} searchTerm={query} handleListItemClick={this.handleListItemClick} />}
           </div>
           <div className="col-6">
             <BookViewer book={selectedBook}/>
@@ -87,7 +86,6 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
     const { page, perPage, query } = this.state;
     searchBooks(query, page, perPage)
       .then(books => {
-        console.log(books);
         this.setState({ books, fetchingBooks: false });
       })
       .catch(error => this.setState({ error, fetchingBooks: false }));

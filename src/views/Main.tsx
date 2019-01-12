@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
 import { Footer, Header } from '../components';
-import { AboutPage, AddBooksPage } from '../views';
+import { AboutPage, AddBooksPage, HaveReadPage } from '../views';
 
 class Main extends React.PureComponent<RouteComponentProps> {
   render() {
@@ -13,6 +13,7 @@ class Main extends React.PureComponent<RouteComponentProps> {
             <Redirect from="/" exact to="/about" />
             <Route path="/about" component={AboutPage} />
             <Route path="/add-books" component={AddBooksPage} />
+            <Route path="/have-read" component={HaveReadPage} />
           </Switch>
         </div>
         <Footer/>
