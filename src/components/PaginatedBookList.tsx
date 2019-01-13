@@ -60,7 +60,7 @@ class BookListItem extends React.PureComponent<BookListItemProps> {
             <span className="text-muted">{book.authors.join(', ')}</span>
           }
         </div>
-        <QuickOptionsList/>
+        <QuickOptionsList book={book} />
       </li>
      );
   }

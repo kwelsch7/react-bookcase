@@ -1,13 +1,15 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
 import { Book } from '../models';
+import { BookcaseState, getHaveReadBooks } from '../redux';
 
 interface HaveReadProps {
   books?: Book[];
 }
 
-export class HaveReadPage extends React.PureComponent<HaveReadProps> {
+export class HaveReadView extends React.PureComponent<HaveReadProps> {
   constructor(props: HaveReadProps) {
     super(props);
   }
@@ -34,3 +36,11 @@ export class HaveReadPage extends React.PureComponent<HaveReadProps> {
     );
   }
 }
+
+const mapStateToProps = (state: BookcaseState): HaveReadProps => (
+  {
+    books: getHaveReadBooks(state),
+  }
+);
+
+export const HaveReadPage = connect(mapStateToProps)(HaveReadView);

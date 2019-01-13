@@ -2,7 +2,7 @@ import * as types from './actionTypes';
 import { BookAction } from './actions';
 import { Book } from '../models';
 
-interface BookcaseState {
+export interface BookcaseState {
   readonly haveReadBooks: Book[];
   readonly amReadingBooks: Book[];
   readonly wishlistBooks: Book[];
