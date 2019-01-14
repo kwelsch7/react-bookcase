@@ -6,7 +6,7 @@ interface BookTableProps {
 }
 
 export const BookTable: React.SFC<BookTableProps> = ({ books }) => (
-  <table className="table">
+  <table className="table table-striped table-hover book-table">
     <thead>
       <tr>
         <th/>
@@ -16,8 +16,8 @@ export const BookTable: React.SFC<BookTableProps> = ({ books }) => (
       </tr>
     </thead>
     <tbody>
-      {books.map(book => (
-        <tr>
+      {books.map((book, index) => (
+        <tr key={index}>
           <td>
             {book.imageLinks && book.imageLinks.smallThumbnail &&
               <img src={book.imageLinks.smallThumbnail} />

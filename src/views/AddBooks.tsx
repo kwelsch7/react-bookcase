@@ -25,7 +25,7 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
     return (
       <React.Fragment>
         <h2>
-          <i className="fas fa-search pr-2" />
+          <i className="fas fa-search pr-2 mr-1" />
           Search Books
         </h2>
         <p>

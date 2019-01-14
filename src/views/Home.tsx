@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { MediaList } from '../components';
 
-export class AboutPage extends React.PureComponent {
+export class HomePage extends React.PureComponent {
   render() {
     return (
       <React.Fragment>
-        <h2>Welcome to the React Bookcase!</h2>
+        <h2>
+          <i className="fas fa-home pr-2 mr-1"/>
+          Welcome to the React Bookcase!
+        </h2>
         {/* For readability -- but what to do with the other side of the page..?
           (Center it? That seems weird to only center this page...)
           Maybe get started options? Ability to immediately start searching?

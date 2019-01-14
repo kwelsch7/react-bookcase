@@ -15,13 +15,13 @@ export const Header: React.SFC = () => (
     <nav className="navbar navbar-dark pt-0 pb-0">
       <ul className="nav">
         <li className="nav-item">
-          <NavLink className="nav-link" activeClassName="active" exact to="/about">
-            <i className="fas fa-info-circle pr-1"/> About
+          <NavLink className="nav-link" activeClassName="active" exact to="/home">
+            <i className="fas fa-home pr-1"/> Home
           </NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" activeClassName="active" exact to="/add-books">
-            <i className="fas fa-search pr-1"/> Add Books
+            <i className="fas fa-search pr-1"/> Search Books
           </NavLink>
         </li>
         <li className="nav-item">

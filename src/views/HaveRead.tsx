@@ -20,7 +20,7 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
     return (
       <React.Fragment>
         <h2>
-          <i className="fas fa-check-square pr-2"/>
+          <i className="fas fa-check-square pr-2 mr-1"/>
           Have Read
         </h2>
         <p>

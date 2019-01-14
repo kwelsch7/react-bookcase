@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux';
 import './styles/app.scss';
+import 'bootstrap/dist/js/bootstrap.js';
 import { RouterWrapper } from './views';
 declare let module: any
 

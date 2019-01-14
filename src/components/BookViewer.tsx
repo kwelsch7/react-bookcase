@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { QuickOptionsList } from '../components';
 import { Book } from '../models';
 
 interface BookViewerProps {
@@ -20,15 +21,20 @@ export const BookViewer: React.SFC<BookViewerProps> = ({ book }) => {
   return (
     <div className="card book-viewer">
       <div className="card-body">
-        <h4 className="card-title">{book.title}</h4>
-        {book.authors &&
-          <h5 className="card-subtitle mb-2 text-muted">{book.authors.join(', ')}</h5>
-        }
-        {isbn13 &&
-          <h5 className="card-subtitle mb-2">
-            {isbn13.identifier}
-          </h5>
-        }
+        <div className="row">
+          <div className="col">
+            <QuickOptionsList book={book} className="float-right"/>
+            <h4 className="card-title">{book.title}</h4>
+            {book.authors &&
+              <h5 className="card-subtitle mb-2 text-muted">{book.authors.join(', ')}</h5>
+            }
+            {isbn13 &&
+              <h5 className="card-subtitle mb-2">
+                {isbn13.identifier}
+              </h5>
+            }
+          </div>
+        </div>
         <div className="row">
           <div className="col-8">
             <p className="card-text">{book.description}</p>
