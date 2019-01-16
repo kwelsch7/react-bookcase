@@ -1,1 +1,1 @@
-export { Book, BookSearchResult } from './Book';
+export { Book, BooksPageAndTotal, BookSearchResult } from './Book';

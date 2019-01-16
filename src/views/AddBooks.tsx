@@ -12,15 +12,16 @@ interface AddBooksState {
   perPage: number;
   query: string;
   selectedBook?: Book;
+  totalBooks: number;
 }
 
-export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
+export class AddBooksPage extends React.PureComponent<{}, AddBooksState> {
   public componentWillMount() {
-    this.setState({ fetchingBooks: false, page: 1, perPage: 10, query: '' });
+    this.setState({ fetchingBooks: false, page: 1, perPage: 10, query: '', totalBooks: 0 });
   }
 
   public render() {
-    const { books, error, fetchingBooks, query, selectedBook } = this.state;
+    const { books, error, fetchingBooks, page, perPage, query, selectedBook, totalBooks } = this.state;
 
     return (
       <React.Fragment>
@@ -60,9 +61,18 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
                 </small>
               </div>
             </form>
-            {fetchingBooks && <div>Fetching books...</div>}
             {error && <div className="text-danger">Bad stuff happened: {error}</div>}
-            {books && <PaginatedBookList books={books} activeBook={selectedBook} searchTerm={query} handleListItemClick={this.handleListItemClick} />}
+            {(fetchingBooks || books) &&
+              <PaginatedBookList
+                activeBook={selectedBook}
+                books={books}
+                handleListItemClick={this.handleListItemClick}
+                page={page}
+                pageSize={perPage}
+                searchTerm={query}
+                totalBooks={totalBooks}
+                updatePageNumber={this.updatePageNumber}
+              />}
           </div>
           <div className="col-6">
             <BookViewer book={selectedBook}/>
@@ -72,21 +82,28 @@ export class AddBooksPage extends React.PureComponent<any, AddBooksState> {
     );
   }
 
-  private handleSearchInputChange = (event: any) => {
-    this.setState({ query: event.target.value });
-  }
+  private handleSearchInputChange = (event: any) => this.setState({ query: event.target.value });
 
-  private handleListItemClick = (clickedBook: Book) => {
-    this.setState({ selectedBook: clickedBook });
-  }
+  private handleListItemClick = (clickedBook: Book) => this.setState({ selectedBook: clickedBook });
+
+  private updatePageNumber = (newPage: number): void => {
+    window.scrollTo(0, 0);
+    this.setState({ books: undefined, fetchingBooks: true, page: newPage });
+    const { perPage, query } = this.state;
+    searchBooks(query, newPage, perPage)
+      .then(({ books, totalItems }) => {
+        this.setState({ books, fetchingBooks: false, totalBooks: totalItems });
+      })
+      .catch(error => this.setState({ error, fetchingBooks: false }));
+  };
 
   private handleSubmit = (event: any) => {
     event.preventDefault();
-    this.setState({ fetchingBooks: true });
+    this.setState({ books: undefined, fetchingBooks: true, selectedBook: undefined });
     const { page, perPage, query } = this.state;
     searchBooks(query, page, perPage)
-      .then(books => {
-        this.setState({ books, fetchingBooks: false });
+      .then(({ books, totalItems }) => {
+        this.setState({ books, fetchingBooks: false, totalBooks: totalItems });
       })
       .catch(error => this.setState({ error, fetchingBooks: false }));
   }

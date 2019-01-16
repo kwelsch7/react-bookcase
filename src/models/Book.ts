@@ -47,3 +47,8 @@ export interface Book {
   canonicalVolumeLink: string; // seems to be the same as info but without search criteria
   // There was a couple other things that didn't seem pertinent
 }
+
+export interface BooksPageAndTotal {
+  books: Book[];
+  totalItems: number;
+}
