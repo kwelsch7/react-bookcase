@@ -1,13 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import * as classnames from 'classnames';
 import * as $ from 'jquery';
 import { Book } from '../models';
+import { BookcaseState, getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from '../redux';
 import * as actions from '../redux/actions';
 
 interface BaseProps {
   book: Book;
   className?: string;
+}
+
+interface StateProps {
+  haveReadBooks: Book[];
+  amReadingBooks: Book[];
+  wishlistBooks: Book[];
 }
 
 interface DispatchProps {
@@ -16,55 +24,82 @@ interface DispatchProps {
   addWishlist(book: Book): void;
 }
 
-type QuickOptionListProps = BaseProps & DispatchProps;
+type QuickOptionListProps = BaseProps & StateProps & DispatchProps;
 
 class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps> {
-  componentDidMount() {
+  public componentDidMount() {
     $(function () {
       ($('[data-toggle="tooltip"]') as any).tooltip();
     });
   }
 
-  componentWillUnmount() {
+  public componentWillUpdate() {
+    // Rather than reset the tooltips, look into
+    // https://stackoverflow.com/questions/9501921/change-twitter-bootstrap-tooltip-content-on-click
     $(function () {
       ($('[data-toggle="tooltip"]') as any).tooltip('dispose');
     });
   }
 
-  render() {
+  public componentDidUpdate() {
+    $(function () {
+      ($('[data-toggle="tooltip"]') as any).tooltip();
+    });
+  }
+
+  public componentWillUnmount() {
+    $(function () {
+      ($('[data-toggle="tooltip"]') as any).tooltip('dispose');
+    });
+  }
+
+  public render() {
+    const { amReadingBooks, haveReadBooks, wishlistBooks } = this.props;
     return (
       <ul className={`nav quick-option-list ${this.props.className || ''}`}>
         <li className="nav-item">
           {/* Note of future update -- tooltip text will change based off of whether the book is in one of your lists.
           E.g. if a book you've searched is in your 'Am Reading' list, it would have "Remove from 'Am Reading'",
             "Move from 'Am Reading' to 'Have Read'", etc. */}
-          <QuickOption
-            book={this.props.book}
-            iconClass="fas fa-fw fa-check-square"
-            onClickAction={this.props.addHaveRead}
-            tooltipText="Add to 'Have Read'"
-          />
+          {this.optionElement(haveReadBooks, 'fas fa-fw fa-check-square', 'Have Read', this.props.addHaveRead)}
         </li>
         <li className="nav-item">
-          <QuickOption
-            book={this.props.book}
-            iconClass="fas fa-fw fa-book-reader"
-            onClickAction={this.props.addAmReading}
-            tooltipText="Add to 'Am Reading'"
-          />
+          {this.optionElement(amReadingBooks, 'fas fa-fw fa-book-reader', 'Am Reading', this.props.addAmReading)}
         </li>
         <li className="nav-item">
-          <QuickOption
-            book={this.props.book}
-            iconClass="fas fa-fw fa-bookmark"
-            onClickAction={this.props.addWishlist}
-            tooltipText="Add to 'Wishlist'"
-          />
+          {this.optionElement(wishlistBooks, 'fas fa-fw fa-bookmark', 'Wishlist', this.props.addWishlist)}
         </li>
       </ul>
     );
   }
+
+  private optionElement = (bookList: Book[], fontAwesomeClass: string, listType: string, dispatchAction: (b: Book) => void): JSX.Element => {
+    const bookIsInList = bookList.map(book => book.id).includes(this.props.book.id);
+
+    const buttonClass = classnames({ 'in-list': bookIsInList });
+
+    // "Move to" if in another list
+    const tooltipText = `${bookIsInList ? 'Remove from' : 'Add to'} "${listType}"`;
+
+    return (
+      <QuickOption
+        book={this.props.book}
+        buttonClass={buttonClass}
+        iconClass={fontAwesomeClass}
+        onClickAction={dispatchAction}
+        tooltipText={tooltipText}
+      />
+    );
+  }
 }
+
+const mapStateToProps = (state: BookcaseState): StateProps => (
+  {
+    amReadingBooks: getAmReadingBooks(state),
+    haveReadBooks: getHaveReadBooks(state),
+    wishlistBooks: getWishlistBooks(state),
+  }
+);
 
 const mapDispatchToProps = (dispatch: Dispatch<actions.BookAction>): DispatchProps => (
   {
@@ -74,10 +109,11 @@ const mapDispatchToProps = (dispatch: Dispatch<actions.BookAction>): DispatchPro
   }
 );
 
-export const QuickOptionsList = connect(null, mapDispatchToProps)(QuickOptionsComponent);
+export const QuickOptionsList = connect(mapStateToProps, mapDispatchToProps)(QuickOptionsComponent);
 
 interface QuickOptionProps {
   book: Book;
+  buttonClass: string;
   iconClass: string;
   tooltipText: string;
   onClickAction(book: Book): void;
@@ -85,12 +121,12 @@ interface QuickOptionProps {
 
 class QuickOption extends React.PureComponent<QuickOptionProps> {
   public render() {
-    const { iconClass, tooltipText } = this.props;
+    const { buttonClass, iconClass, tooltipText } = this.props;
     return (
       <button
         onClick={this.handleClick}
         type="button"
-        className="quick-option-button btn rounded-circle"
+        className={`quick-option-button btn rounded-circle ${buttonClass}`}
         data-toggle="tooltip"
         data-placement="top"
         title={tooltipText}

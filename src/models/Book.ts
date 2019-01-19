@@ -5,6 +5,7 @@ export interface BookSearchResult {
 }
 
 export interface SearchResultItem {
+  id: string;
   kind: string;
   volumeInfo: Book;
   // There's more, but doesn't seem pertinent
@@ -27,6 +28,7 @@ interface ImageLinks {
 }
 
 export interface Book {
+  id: string; // Pulled off of SearchResultItem
   title: string;
   subtitle: string;
   authors?: string[];

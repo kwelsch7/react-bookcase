@@ -7,7 +7,7 @@ export const searchBooks = (query: string, page: number, pageSize: number): Prom
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${GOOGLE_BOOKS_KEY}`)
       .then(({ data }: AxiosResponse) => {
         const result: BookSearchResult = data;
-        const books = result.items.map(item => item.volumeInfo);
+        const books = result.items.map(item => ({ ...item.volumeInfo, id: item.id }));
         const { totalItems } = result;
         resolve({ books, totalItems });
       })
@@ -23,7 +23,7 @@ export const advancedSearch = (page: number, pageSize: number, title?: string, a
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${getStartIndex(page, pageSize)}&maxResults=${pageSize}&key=${GOOGLE_BOOKS_KEY}`)
       .then(({ data }: AxiosResponse) => {
         const result: BookSearchResult = data;
-        const books = result.items.map(item => item.volumeInfo);
+        const books = result.items.map(item => ({ ...item.volumeInfo, id: item.id }));
         const { totalItems } = result;
         resolve({ books, totalItems });
       })
