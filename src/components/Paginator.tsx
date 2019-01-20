@@ -10,59 +10,38 @@ interface PaginatorProps {
 }
 
 interface PaginatorState {
-  highRange: number;
-  lowRange: number;
-  range: number[];
+  showingHigh: number;
+  showingLow: number;
+  pageRange: number[];
   totalPages: number;
 }
-
-// NOTE -- Consider making this like Google's paginator, which doesn't supply a "First" and "Last" page option
-//   -- in part because the api keeps returning new "totals" on each return, and partially because of the nature of
-//   -- looking for a "relevant" result rather than a particular one hiding somewhere in the pages
 
 export class Paginator extends React.PureComponent<PaginatorProps, PaginatorState> {
   constructor(props: PaginatorProps) {
     super(props);
-    const { activePage, pageSize, totalRecords } = props;
-    const totalPages = Math.ceil(totalRecords / pageSize);
-    const range: number[] = [];
-    for(var pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      range.push(pageNumber);
-    }
-    const lowRange = pageSize * (activePage - 1) + 1;
-    let highRange = lowRange + pageSize - 1;
-    highRange = highRange <= totalRecords ? highRange : totalRecords;
-    this.state = {
-      highRange,
-      lowRange,
-      range,
-      totalPages,
-    };
+    this.state = this.getState(props);
   }
 
   public componentWillReceiveProps(nextProps: PaginatorProps) {
     if (this.props.activePage !== nextProps.activePage) {
-      const { activePage, pageSize, totalRecords } = nextProps;
-      const lowRange = pageSize * (activePage - 1) + 1;
-      let highRange = lowRange + pageSize - 1;
-      highRange = highRange <= totalRecords ? highRange : totalRecords;
-      this.setState({ highRange, lowRange });
+      const newState = this.getState(nextProps);
+      this.setState(newState);
     }
   }
 
   public render() {
     const { activePage, totalRecords, updatePageNumber } = this.props;
-    const { highRange, lowRange, range, totalPages } = this.state;
+    const { showingHigh, showingLow, pageRange, totalPages } = this.state;
     return (
       <React.Fragment>
         <nav className="mt-3 mb-2">
           <ul className="pagination">
-            <li className={`page-item${activePage === 1 ? ' disabled' : ''}`}>
+            <li className={`page-item mr-3${activePage === 1 ? ' disabled' : ''}`}>
               <Link onClick={this.handlePrevClick} className="page-link" to={{ search: `?page=${activePage - 1}` }} aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
+                <span aria-hidden="true">&laquo; Previous</span>
               </Link>
             </li>
-            {range.map(pageNumber =>(
+            {pageRange.map(pageNumber =>(
               <PageItem
                 activePage={activePage}
                 pageNumber={pageNumber}
@@ -70,14 +49,14 @@ export class Paginator extends React.PureComponent<PaginatorProps, PaginatorStat
                 key={pageNumber}
               />
             ))}
-            <li className={`page-item${activePage === totalPages ? ' disabled' : ''}`}>
+            <li className={`page-item ml-3${activePage === totalPages ? ' disabled' : ''}`}>
               <Link onClick={this.handleNextClick} className="page-link" to={{ search: `?page=${activePage + 1}` }} aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
+                <span aria-hidden="true">Next &raquo;</span>
               </Link>
             </li>
           </ul>
         </nav>
-        <div>Showing {lowRange} to {highRange} of {totalRecords} items.</div>
+        <div>Showing {showingLow} to {showingHigh} of {totalRecords} items.</div>
       </React.Fragment>
     );
   }
@@ -85,6 +64,41 @@ export class Paginator extends React.PureComponent<PaginatorProps, PaginatorStat
   private handlePrevClick = () => this.props.updatePageNumber(this.props.activePage - 1);
 
   private handleNextClick = () => this.props.updatePageNumber(this.props.activePage + 1);
+
+  private getPageNav = (activePage: number, totalPages: number): number[] => {
+    let startingPage = activePage - 5;
+    if (startingPage < 1) {
+      startingPage = 1;
+    }
+    let endingPage = startingPage + 9;
+    if (endingPage > totalPages) {
+      endingPage = totalPages;
+      startingPage = endingPage - 9;
+    }
+    if (startingPage < 1) {
+      startingPage = 1;
+    }
+    const pageRange: number[] = [];
+    for(let pageNumber = startingPage; pageNumber <= endingPage; pageNumber++) {
+      pageRange.push(pageNumber);
+    }
+    return pageRange;
+  }
+
+  private getState = (props: PaginatorProps) => {
+    const { activePage, pageSize, totalRecords } = props;
+    const totalPages = Math.ceil(totalRecords / pageSize);
+    const pageRange = this.getPageNav(activePage, totalPages);
+    const showingLow = pageSize * (activePage - 1) + 1;
+    let showingHigh = showingLow + pageSize - 1;
+    showingHigh = showingHigh <= totalRecords ? showingHigh : totalRecords;
+    return {
+      showingHigh,
+      showingLow,
+      pageRange,
+      totalPages,
+    };
+  }
 }
 
 interface PageItemProps {
