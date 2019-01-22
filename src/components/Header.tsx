@@ -20,7 +20,7 @@ export const Header: React.SFC = () => (
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" activeClassName="active" exact to="/add-books">
+          <NavLink className="nav-link" activeClassName="active" exact to="/search-books">
             <i className="fas fa-search pr-1"/> Search Books
           </NavLink>
         </li>

@@ -1,5 +1,26 @@
 @import 'variables';
 
 footer.navbar {
-  color: $secondary;
+    padding: 1rem;
+    color: $secondary;
+
+    .media-list {
+        display: inline-block;
+    }
+
+    a.underline-effect {
+        color: $secondary;
+
+        &::after {
+            background-color: $secondary;
+        }
+
+        &:hover {
+            color: lighten($secondary, 8%);
+
+            &::after {
+                background-color: lighten($secondary, 8%);
+            }
+        }
+    }
 }

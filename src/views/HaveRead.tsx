@@ -26,7 +26,7 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
         <p>
           Your collection of completed books!
           If you've finished another one, transfer it from your <Link to="/am-reading">current list,</Link>
-          or <Link to="/add-books">search for it!</Link>
+          or <Link to="/search-books">search for it!</Link>
         </p>
         {books && books.length
           ? <BookTable books={books} />

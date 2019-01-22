@@ -4,7 +4,7 @@ import { searchBooks } from '../api/GoogleBooks';
 import { BookViewer, PaginatedBookList } from '../components';
 import { Book } from '../models';
 
-interface AddBooksState {
+interface SearchBooksState {
   books?: Book[];
   error?: string;
   fetchingBooks: boolean;
@@ -15,7 +15,7 @@ interface AddBooksState {
   totalBooks: number;
 }
 
-export class AddBooksPage extends React.PureComponent<{}, AddBooksState> {
+export class SearchBooksPage extends React.PureComponent<{}, SearchBooksState> {
   public componentWillMount() {
     this.setState({ fetchingBooks: false, page: 1, perPage: 10, query: '', totalBooks: 0 });
   }
@@ -101,6 +101,7 @@ export class AddBooksPage extends React.PureComponent<{}, AddBooksState> {
     event.preventDefault();
     this.setState({ books: undefined, fetchingBooks: true, selectedBook: undefined });
     const { page, perPage, query } = this.state;
+    // Reset page to 1 if query is different than previous
     searchBooks(query, page, perPage)
       .then(({ books, totalItems }) => {
         this.setState({ books, fetchingBooks: false, totalBooks: totalItems });

@@ -100,3 +100,9 @@
     width: 3.5rem;
   }
 }
+
+.media-list {
+  .list-inline-item:not(:last-child) a {
+    margin-right: 0.75rem;
+  }
+}

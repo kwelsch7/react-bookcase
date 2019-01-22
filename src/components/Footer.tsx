@@ -7,7 +7,7 @@ export const Footer: React.SFC = () => (
       Copyright © 2019 Konnor Welsch
     </span>
     <div>
-      <span className="pr-2">
+      <span className="pr-4">
         Find me on:
       </span>
       <MediaList/>
