@@ -31,7 +31,7 @@ export class SearchBooksPage extends React.PureComponent<{}, SearchBooksState> {
         </h2>
         <p>
           Find books to add to your collection.
-          If you can't find one, <Link to="/register">make one!</Link>
+          If you can't find one, <Link to="/register" className="underline-effect">make one!</Link>
         </p>
         <div className="row">
           <div className="col-6">

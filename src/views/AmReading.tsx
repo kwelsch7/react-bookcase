@@ -25,8 +25,8 @@ export class AmReadingView extends React.PureComponent<AmReadingProps> {
         </h2>
         <p>
           The collection you're currently chipping away at!
-          Once you've finished one, transfer it to your <Link to="/have-read">completed list,</Link>
-          or <Link to="/wishlist">shelf it for later!</Link>
+          Once you've finished one, transfer it to
+          your <Link to="/have-read" className="underline-effect">completed list,</Link> or <Link to="/wishlist" className="underline-effect">shelf it for later!</Link>
         </p>
         {books && books.length
           ? <BookTable books={books} />

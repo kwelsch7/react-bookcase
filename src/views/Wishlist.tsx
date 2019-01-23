@@ -25,8 +25,7 @@ export class WishlistView extends React.PureComponent<WishlistProps> {
         </h2>
         <p>
           The next books on the docket!
-          Once you've started one, transfer it to your <Link to="/am-reading">started list,</Link>
-          or <Link to="/have-read">skip straight to have-read!</Link>
+          Once you've started one, transfer it to your <Link to="/am-reading" className="underline-effect">started list,</Link> or  <Link to="/have-read" className="underline-effect">skip straight to have-read!</Link>
         </p>
         {books && books.length
           ? <BookTable books={books} />
