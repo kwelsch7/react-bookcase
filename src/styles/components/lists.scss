@@ -67,16 +67,33 @@
   }
 
   .quick-option-button {
+    position: relative;
     cursor: default;
     padding: 0.625rem 0.75rem;
     background-color: lighten($secondary, 15%);
     border: 1px solid lighten($secondary, 10%);
     color: $secondary-dark;
 
+    &::before {
+      position: absolute;
+      left: -0.875rem;
+      font-weight: 900;
+      font-family: "Font Awesome 5 Free";
+      font-size: 1.125rem;
+      opacity: 0;
+      content: '\f30b';
+      transition: opacity 0.15s, left 0.15s;
+    }
+
     &:hover {
       background-color: lighten($secondary, 8%);
       border: 1px solid lighten($secondary, 2%);
       color: darken($secondary-dark, 6%);
+
+      &::before {
+        left: -0.5rem;
+        opacity: 1;
+      }
     }
 
     &.in-list {
@@ -85,9 +102,30 @@
       border: 1px solid lighten(red, 6%);
       color: darken($secondary-dark, 6%);
 
+      &::before {
+        content: '\f30a';
+      }
+
       &:hover {
         background-color: lighten(red, 8%);
         border: 1px solid lighten(red, 15%);
+        color: $secondary-dark;
+      }
+    }
+
+    &.move-to-list {
+      // Change color!!
+      background-color: purple;
+      border: 1px solid lighten(purple, 6%);
+      color: darken($secondary-dark, 6%);
+
+      &::before {
+        content: '\f362';
+      }
+
+      &:hover {
+        background-color: lighten(purple, 8%);
+        border: 1px solid lighten(purple, 15%);
         color: $secondary-dark;
       }
     }

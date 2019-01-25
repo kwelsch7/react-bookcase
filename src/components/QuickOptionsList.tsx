@@ -26,7 +26,22 @@ interface DispatchProps {
 
 type QuickOptionListProps = BaseProps & StateProps & DispatchProps;
 
-class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps> {
+interface QuickOptionsState {
+  isInHaveReadList: boolean;
+  isInAmReadingList: boolean;
+  isInWishlistList: boolean;
+}
+
+class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps, QuickOptionsState> {
+  constructor(props: QuickOptionListProps) {
+    super(props);
+    this.state = {
+      isInAmReadingList: this.isInList(props.amReadingBooks, props.book),
+      isInHaveReadList: this.isInList(props.haveReadBooks, props.book),
+      isInWishlistList: this.isInList(props.wishlistBooks, props.book),
+    };
+  }
+
   public componentDidMount() {
     $(function () {
       ($('[data-toggle="tooltip"]') as any).tooltip();
@@ -44,6 +59,11 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps> {
   public componentDidUpdate() {
     $(function () {
       ($('[data-toggle="tooltip"]') as any).tooltip();
+    });
+    this.setState({
+      isInAmReadingList: this.isInList(this.props.amReadingBooks, this.props.book),
+      isInHaveReadList: this.isInList(this.props.haveReadBooks, this.props.book),
+      isInWishlistList: this.isInList(this.props.wishlistBooks, this.props.book),
     });
   }
 
@@ -74,12 +94,26 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps> {
   }
 
   private optionElement = (bookList: Book[], fontAwesomeClass: string, listType: string, dispatchAction: (b: Book) => void): JSX.Element => {
-    const bookIsInList = bookList.map(book => book.id).includes(this.props.book.id);
+    const { isInAmReadingList, isInHaveReadList, isInWishlistList } = this.state;
+    let bookIsInList = false;
+    let bookInAnotherList = false;
+    switch (listType) {
+      case 'Have Read':
+        bookIsInList = isInHaveReadList;
+        bookInAnotherList = isInAmReadingList || isInWishlistList;
+        break;
+      case 'Am Reading':
+        bookIsInList = isInAmReadingList;
+        bookInAnotherList = isInHaveReadList || isInWishlistList;
+        break;
+      case 'Wishlist':
+        bookIsInList = isInWishlistList;
+        bookInAnotherList = isInHaveReadList || isInAmReadingList;
+    }
 
-    const buttonClass = classnames({ 'in-list': bookIsInList });
+    const buttonClass = classnames({ 'in-list': bookIsInList, 'move-to-list': bookInAnotherList });
 
-    // "Move to" if in another list
-    const tooltipText = `${bookIsInList ? 'Remove from' : 'Add to'} "${listType}"`;
+    const tooltipText = `${bookIsInList ? 'Remove from' : bookInAnotherList ? 'Move to' : 'Add to'} "${listType}"`;
 
     return (
       <QuickOption
@@ -91,6 +125,8 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps> {
       />
     );
   }
+
+  private isInList = (bookList: Book[], book: Book): boolean => bookList.map(b => b.id).includes(book.id);
 }
 
 const mapStateToProps = (state: BookcaseState): StateProps => (
