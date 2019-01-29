@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import * as types from './actionTypes';
-import { Book } from '../models';
+import { Book } from '../../models';
 
 export interface BookAction extends Action {
   book: Book

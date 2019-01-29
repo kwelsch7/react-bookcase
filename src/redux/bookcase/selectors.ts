@@ -1,4 +1,4 @@
-import { Book } from '../models';
+import { Book } from '../../models';
 import { BookcaseState } from './reducers';
 
 export const getHaveReadBooks = (store: BookcaseState): Book[] => store ? store.haveReadBooks : [];
