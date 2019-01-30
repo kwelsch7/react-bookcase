@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
 import { Book } from '../models';
-import { BookcaseState, getHaveReadBooks } from '../redux';
+import { AppState, getHaveReadBooks } from '../redux';
 
 interface HaveReadProps {
   books?: Book[];
@@ -37,9 +37,9 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
   }
 }
 
-const mapStateToProps = (state: BookcaseState): HaveReadProps => (
+const mapStateToProps = (state: AppState): HaveReadProps => (
   {
-    books: getHaveReadBooks(state),
+    books: getHaveReadBooks(state.bookcaseState),
   }
 );
 

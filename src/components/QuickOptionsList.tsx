@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import * as classnames from 'classnames';
 import * as $ from 'jquery';
 import { Book } from '../models';
-import { BookcaseState, getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from '../redux';
+import { AppState, getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from '../redux';
 import * as actions from '../redux/bookcase/actions';
 
 interface BaseProps {
@@ -40,7 +40,6 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps, Qu
   constructor(props: QuickOptionListProps) {
     super(props);
     this.state = this.calculateState(props);
-    console.log('constructor');
   }
 
   public componentDidMount() {
@@ -162,11 +161,11 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps, Qu
   private isInList = (bookList: Book[], book: Book): boolean => bookList.map(b => b.id).includes(book.id);
 }
 
-const mapStateToProps = (state: BookcaseState): StateProps => (
+const mapStateToProps = (state: AppState): StateProps => (
   {
-    amReadingBooks: getAmReadingBooks(state),
-    haveReadBooks: getHaveReadBooks(state),
-    wishlistBooks: getWishlistBooks(state),
+    amReadingBooks: getAmReadingBooks(state.bookcaseState),
+    haveReadBooks: getHaveReadBooks(state.bookcaseState),
+    wishlistBooks: getWishlistBooks(state.bookcaseState),
   }
 );
 

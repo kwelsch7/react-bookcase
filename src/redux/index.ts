@@ -1,11 +1,20 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import { bookcaseReducer } from './bookcase/reducers';
-// make a second reducer for general app state
-// (e.g. holding onto results of last search in AddBooks so that navigating back and forth doesn't disrupt flow)
-// -- combine them here
-export const store = createStore(bookcaseReducer);
+import { searchReducer } from './search/reducers';
+import { BookcaseState } from './bookcase/reducers';
+import { SearchState } from './search/reducers';
+
+export const store = createStore(
+  combineReducers({ bookcaseState: bookcaseReducer, searchState: searchReducer })
+);
+
+export interface AppState {
+  readonly bookcaseState: BookcaseState;
+  readonly searchState: SearchState;
+}
 
 export { BookAction } from './bookcase/actions';
-export { BookcaseState } from './bookcase/reducers';
 export { getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from './bookcase/selectors';
-export { InputAction, PageAction } from './app/actions';
+export { BooksAction, InputAction, NumericAction } from './search/actions';
+
+export { BookcaseState, SearchState };

@@ -1,8 +1,29 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { searchBooks } from '../api/GoogleBooks';
 import { BookViewer, PaginatedBookList } from '../components';
 import { Book } from '../models';
+import * as actions from '../redux/search/actions';
+import { SearchActions } from '../redux/search/reducers';
+import { AppState } from '../redux';
+
+interface StateProps {
+  books?: Book[];
+  page: number;
+  query: string;
+  selectedBook?: Book;
+  totalBooks: number;
+}
+
+interface DispatchProps {
+  changeQueryPage: (page: number) => void;
+  queryBooks: (query: string) => void;
+  selectBookFromQuery: (book: Book) => void;
+  setSearchResult: (books: Book[]) => void;
+  updateTotalBooks: (total: number) => void;
+}
 
 interface SearchBooksState {
   books?: Book[];
@@ -15,9 +36,13 @@ interface SearchBooksState {
   totalBooks: number;
 }
 
-export class SearchBooksPage extends React.PureComponent<{}, SearchBooksState> {
-  public componentWillMount() {
-    this.setState({ fetchingBooks: false, page: 1, perPage: 10, query: '', totalBooks: 0 });
+type SearchBooksProps = StateProps & DispatchProps;
+
+class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksState> {
+  constructor(props: SearchBooksProps) {
+    super(props);
+    const { books, page, query, selectedBook, totalBooks } = props;
+    this.state = { books, fetchingBooks: false, page, perPage: 10, query, selectedBook, totalBooks };
   }
 
   public render() {
@@ -84,15 +109,21 @@ export class SearchBooksPage extends React.PureComponent<{}, SearchBooksState> {
 
   private handleSearchInputChange = (event: any) => this.setState({ query: event.target.value });
 
-  private handleListItemClick = (clickedBook: Book) => this.setState({ selectedBook: clickedBook });
+  private handleListItemClick = (clickedBook: Book) => {
+    this.setState({ selectedBook: clickedBook });
+    this.props.selectBookFromQuery(clickedBook);
+  }
 
   private updatePageNumber = (newPage: number): void => {
     window.scrollTo(0, 0);
     this.setState({ books: undefined, fetchingBooks: true, page: newPage });
+    this.props.changeQueryPage(newPage);
     const { perPage, query } = this.state;
     searchBooks(query, newPage, perPage)
       .then(({ books, totalItems }) => {
         this.setState({ books, fetchingBooks: false, totalBooks: totalItems });
+        this.props.setSearchResult(books);
+        this.props.updateTotalBooks(totalItems);
       })
       .catch(error => this.setState({ error, fetchingBooks: false }));
   };
@@ -100,12 +131,38 @@ export class SearchBooksPage extends React.PureComponent<{}, SearchBooksState> {
   private handleSubmit = (event: any) => {
     event.preventDefault();
     this.setState({ books: undefined, fetchingBooks: true, selectedBook: undefined });
+    this.props.selectBookFromQuery(undefined);
     const { page, perPage, query } = this.state;
+    this.props.queryBooks(query);
     // Reset page to 1 if query is different than previous
     searchBooks(query, page, perPage)
       .then(({ books, totalItems }) => {
         this.setState({ books, fetchingBooks: false, totalBooks: totalItems });
+        this.props.setSearchResult(books);
+        this.props.updateTotalBooks(totalItems);
       })
       .catch(error => this.setState({ error, fetchingBooks: false }));
   }
 }
+
+const mapStateToProps = (state: AppState): StateProps => (
+  {
+    books: state.searchState.books,
+    page: state.searchState.page,
+    query: state.searchState.query,
+    selectedBook: state.searchState.selectedBook,
+    totalBooks: state.searchState.totalBooks,
+  }
+);
+
+const mapDispatchToProps = (dispatch: Dispatch<SearchActions>): DispatchProps => (
+  {
+    changeQueryPage: (page: number) => dispatch(actions.changeQueryPage(page)),
+    queryBooks: (query: string) => dispatch(actions.queryBooks(query)),
+    selectBookFromQuery: (book: Book) => dispatch(actions.selectBookFromQuery(book)),
+    setSearchResult: (books: Book[]) => dispatch(actions.setSearchResult(books)),
+    updateTotalBooks: (total: number) => dispatch(actions.updateTotalBooks(total)),
+  }
+);
+
+export const SearchBooksPage = connect(mapStateToProps, mapDispatchToProps)(SearchBooksView);

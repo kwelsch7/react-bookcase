@@ -7,8 +7,12 @@ export interface InputAction extends Action {
   input: string;
 }
 
-export interface PageAction extends Action {
-  page: number;
+export interface NumericAction extends Action {
+  value: number;
+}
+
+export interface BooksAction extends Action {
+  books: Book[];
 }
 
 export const queryBooks = (query: string): InputAction => (
@@ -25,9 +29,23 @@ export const selectBookFromQuery = (book: Book): BookAction => (
   }
 );
 
-export const changeQueryPage = (page: number): PageAction => (
+export const changeQueryPage = (page: number): NumericAction => (
   {
-    page,
+    value: page,
     type: types.CHANGE_QUERY_PAGE,
   }
 );
+
+export const setSearchResult = (books: Book[]): BooksAction => (
+  {
+    books,
+    type: types.SET_SEARCH_RESULT,
+  }
+);
+
+export const updateTotalBooks = (total: number): NumericAction => (
+  {
+    value: total,
+    type: types.UPDATE_TOTAL_BOOKS,
+  }
+)

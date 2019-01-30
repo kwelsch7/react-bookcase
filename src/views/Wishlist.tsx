@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
 import { Book } from '../models';
-import { BookcaseState, getWishlistBooks } from '../redux';
+import { AppState, getWishlistBooks } from '../redux';
 
 interface WishlistProps {
   books?: Book[];
@@ -36,9 +36,9 @@ export class WishlistView extends React.PureComponent<WishlistProps> {
   }
 }
 
-const mapStateToProps = (state: BookcaseState): WishlistProps => (
+const mapStateToProps = (state: AppState): WishlistProps => (
   {
-    books: getWishlistBooks(state),
+    books: getWishlistBooks(state.bookcaseState),
   }
 );
 
