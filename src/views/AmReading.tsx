@@ -29,7 +29,11 @@ export class AmReadingView extends React.PureComponent<AmReadingProps> {
           your <Link to="/have-read" className="underline-effect">completed list,</Link> or <Link to="/wishlist" className="underline-effect">shelf it for later!</Link>
         </p>
         {books && books.length
-          ? <BookTable books={books} />
+          ? <BookTable
+              books={books}
+              filterPlaceholder="Filter Am Reading..."
+              uniqueTableKey="am-reading-table"
+            />
           : <h3>Nothing here. Better get started!</h3>
         }
       </React.Fragment>

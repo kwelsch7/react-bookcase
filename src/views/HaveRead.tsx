@@ -29,7 +29,11 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
           your <Link to="/am-reading" className="underline-effect">current list,</Link> or <Link to="/search-books" className="underline-effect">search for it!</Link>
         </p>
         {books && books.length
-          ? <BookTable books={books} />
+          ? <BookTable
+              books={books}
+              filterPlaceholder="Filter Have Read..."
+              uniqueTableKey="have-read-table"
+            />
           : <h3>Nothing to see here! Go read some more :D</h3>
         }
       </React.Fragment>
