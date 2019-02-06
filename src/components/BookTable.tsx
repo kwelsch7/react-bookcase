@@ -5,6 +5,7 @@ import { Book } from '../models';
 import { AppState } from '../redux';
 import * as actions from '../redux/tables/actions';
 import { TableAction } from '../redux/tables/reducers';
+import { QuickOptionsList } from './QuickOptionsList'
 
 interface BaseProps {
   books: Book[];
@@ -48,12 +49,13 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
               <th>Author(s)</th>
               <th>ISBN</th>
               <th>Categories</th>
+              <th>Options</th>
             </tr>
           </thead>
           <tbody>
             {filteredBooks.length === 0
               ? <tr className="no-hover">
-                  <td colSpan={5}>
+                  <td colSpan={6}>
                     No books match the filter "{this.props.filterTerm}".
                   </td>
                 </tr>
@@ -70,6 +72,9 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
                     {this.getISBN(book) && this.getISBN(book).identifier}
                   </td>
                   <td>{book.categories && book.categories.join(', ')}</td>
+                  <td>
+                    <QuickOptionsList book={book} />
+                  </td>
                 </tr>
             ))}
           </tbody>

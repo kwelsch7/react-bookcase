@@ -60,7 +60,8 @@
 }
 
 .quick-option-list {
-  min-width: 170px;
+  min-width: 158px;
+  justify-content: space-evenly;
 
   .nav-item:not(:last-child) {
     margin-right: 1rem;
@@ -69,14 +70,14 @@
   .quick-option-button {
     position: relative;
     cursor: default;
-    padding: 0.625rem 0.75rem;
+    padding: 0.5rem 0.625rem;
     background-color: lighten($secondary, 15%);
     border: 1px solid lighten($secondary, 10%);
     color: $secondary-dark;
 
     &::before {
       position: absolute;
-      left: -0.875rem;
+      left: -1rem;
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
       font-size: 1.125rem;
@@ -91,7 +92,7 @@
       color: darken($secondary-dark, 6%);
 
       &::before {
-        left: -0.5rem;
+        left: -0.625rem;
         opacity: 1;
       }
     }
@@ -99,7 +100,7 @@
     &.in-list {
       // Change color!!
       background-color: red;
-      border: 1px solid lighten(red, 6%);
+      border: 1px solid darken(red, 6%);
       color: darken($secondary-dark, 6%);
 
       &::before {
@@ -108,15 +109,15 @@
 
       &:hover {
         background-color: lighten(red, 8%);
-        border: 1px solid lighten(red, 15%);
+        border: 1px solid lighten(red, 2%);
         color: $secondary-dark;
       }
     }
 
     &.move-to-list {
       // Change color!!
-      background-color: purple;
-      border: 1px solid lighten(purple, 6%);
+      background-color: lighten(purple, 8%);
+      border: 1px solid lighten(purple, 2%);
       color: darken($secondary-dark, 6%);
 
       &::before {
@@ -124,8 +125,8 @@
       }
 
       &:hover {
-        background-color: lighten(purple, 8%);
-        border: 1px solid lighten(purple, 15%);
+        background-color: lighten(purple, 15%);
+        border: 1px solid lighten(purple, 8%);
         color: $secondary-dark;
       }
     }
@@ -144,6 +145,12 @@
   user-select: none;
 }
 
+.table {
+  th, td {
+    padding: 0.5rem;
+  }
+}
+
 .book-table {
   background-color: rgba(0, 0, 0, 0.01);
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -151,6 +158,8 @@
   img {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     width: 3.5rem;
+    display: block;
+    margin: 0 auto;
   }
 
   thead th {
@@ -166,6 +175,7 @@
     border-top: none;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     border-left: 1px solid rgba(0, 0, 0, 0.1);
+    vertical-align: middle;
   }
 }
 

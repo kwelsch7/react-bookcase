@@ -75,9 +75,10 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps, Qu
   }
 
   public render() {
-    const { amReadingBooks, haveReadBooks, wishlistBooks } = this.props;
+    const { amReadingBooks, className, haveReadBooks, wishlistBooks } = this.props;
+    const classes = classnames('nav quick-option-list', className);
     return (
-      <ul className={`nav quick-option-list ${this.props.className || ''}`}>
+      <ul className={classes}>
         <li className="nav-item">
           {this.optionElement(haveReadBooks, 'fas fa-fw fa-check-square', 'Have Read')}
         </li>
