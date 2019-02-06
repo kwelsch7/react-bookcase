@@ -25,12 +25,12 @@ type BookTableProps = BaseProps & StateProps & DispatchProps;
 
 export class BookTableClass extends React.PureComponent<BookTableProps> {
   private timeOut: number;
-  private filterProperties = ['title'];
 
   public render() {
+    const filteredBooks = this.filterBooks();
     return (
       <React.Fragment>
-        <div className="position-relative">
+        <div className="position-relative mb-3">
           <i className="fas fa-filter position-absolute text-muted" style={{ top: '0.75rem', left: '0.5rem' }}/>
           <input
             className="form-control"
@@ -47,22 +47,30 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
               <th>Title</th>
               <th>Author(s)</th>
               <th>ISBN</th>
+              <th>Categories</th>
             </tr>
           </thead>
           <tbody>
-            {this.filterBooks().map((book, index) => (
-              <tr key={index}>
-                <td>
-                  {book.imageLinks && book.imageLinks.smallThumbnail &&
-                    <img src={book.imageLinks.smallThumbnail} />
-                  }
-                </td>
-                <td>{book.title}</td>
-                <td>{book.authors && book.authors.join(', ')}</td>
-                <td>
-                  {this.getISBN(book) && this.getISBN(book).identifier}
-                </td>
-              </tr>
+            {filteredBooks.length === 0
+              ? <tr className="no-hover">
+                  <td colSpan={5}>
+                    No books match the filter "{this.props.filterTerm}".
+                  </td>
+                </tr>
+              : filteredBooks.map((book, index) => (
+                <tr key={index}>
+                  <td>
+                    {book.imageLinks && book.imageLinks.smallThumbnail &&
+                      <img src={book.imageLinks.smallThumbnail} />
+                    }
+                  </td>
+                  <td>{book.title}</td>
+                  <td>{book.authors && book.authors.join(', ')}</td>
+                  <td>
+                    {this.getISBN(book) && this.getISBN(book).identifier}
+                  </td>
+                  <td>{book.categories && book.categories.join(', ')}</td>
+                </tr>
             ))}
           </tbody>
         </table>
@@ -74,26 +82,40 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
   private getISBN = (book: Book) => book.industryIdentifiers && book.industryIdentifiers.find(isbn => isbn.type === 'ISBN_13');
 
   public filterBooks(): Book[] {
-    const books: any[] = this.props.books;
+    const books = this.props.books;
     const filterTerm = this.props.filterTerm.toLowerCase();
     if (filterTerm.length < 1) {
       return books;
     }
 
     return books.filter((book) => {
-      let match = false;
-      // Probably won't be able to use the filterProperties concept because of the nesting of the properties in the Book object
-      this.filterProperties.forEach((property) => {
-        if (!match) {
-          match = book[property] && book[property].toLowerCase().indexOf(filterTerm) >= 0;
+      if (book.title && book.title.toLowerCase().includes(filterTerm)) {
+        return true;
+      }
+      if (book.authors) {
+        for (let author of book.authors) {
+          if (author.toLowerCase().includes(filterTerm)) {
+            return true;
+          }
         }
-      });
-      return match;
+      }
+      if (book.categories) {
+        for (let category of book.categories) {
+          if (category.toLowerCase().includes(filterTerm)) {
+            return true;
+          }
+        }
+      }
+      if (this.getISBN(book) && this.getISBN(book).identifier.includes(filterTerm)) {
+        return true;
+      }
+
+      return false;
     });
   }
 
   public searchHandler = (e: any) => {
-    const waitTime = 500;
+    const waitTime = 400;
     const text = e.target.value;
     clearTimeout(this.timeOut);
     this.timeOut = setTimeout(() => {

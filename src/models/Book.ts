@@ -37,8 +37,8 @@ export interface Book {
   description: string;
   industryIdentifiers: ISBNTypes[];
   pageCount: number;
-  mainCategory?: string;
-  categories: string[];
+  mainCategory?: string; // Doesn't appear to be defined very often if at all
+  categories?: string[]; // is usually defined
   averageRating: number;
   ratingsCount: number;
   maturityRating: string; // might be 'MATURE'|'NOT_MATURE'

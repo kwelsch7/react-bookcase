@@ -86,6 +86,7 @@ class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksS
                 </small>
               </div>
             </form>
+            {/* Doesn't seem to catch 400 from API: */}
             {error && <div className="text-danger">Bad stuff happened: {error}</div>}
             {(fetchingBooks || books) &&
               <PaginatedBookList
