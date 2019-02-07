@@ -13,6 +13,10 @@ export interface FilterTermAction extends TableAction {
   filterTerm: string;
 }
 
+export interface SortAction extends TableAction {
+  sortKey: string;
+}
+
 export const updateCurrentPage = (key: string, page: number): NumericTableAction => (
   {
     key,
@@ -34,5 +38,13 @@ export const updateFilterTerm = (key: string, filterTerm: string): FilterTermAct
     key,
     filterTerm,
     type: types.UPDATE_FILTER_TERM,
+  }
+);
+
+export const updateSortKey = (tableKey: string, sortKey: string): SortAction => (
+  {
+    sortKey,
+    key: tableKey,
+    type: types.SORTKEY_UPDATED,
   }
 );

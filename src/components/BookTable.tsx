@@ -5,7 +5,7 @@ import { Book } from '../models';
 import { AppState } from '../redux';
 import * as actions from '../redux/tables/actions';
 import { TableAction } from '../redux/tables/reducers';
-import { QuickOptionsList } from './QuickOptionsList'
+import { QuickOptionsList, SortHeaderCell, SortTableHead } from './index'
 
 interface BaseProps {
   books: Book[];
@@ -15,11 +15,14 @@ interface BaseProps {
 
 interface StateProps {
   filterTerm: string;
+  sortKey: string;
+  sortReverse: boolean;
 }
 
 interface DispatchProps {
   updateCurrentPage(page: number): void;
   updateFilterTerm(term: string): void;
+  updateSortKey(sortKey: string): void;
 }
 
 type BookTableProps = BaseProps & StateProps & DispatchProps;
@@ -28,6 +31,7 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
   private timeOut: number;
 
   public render() {
+    const { sortKey, sortReverse, updateSortKey } = this.props;
     const filteredBooks = this.filterBooks();
     return (
       <React.Fragment>
@@ -42,16 +46,28 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
           />
         </div>
         <table className="table table-striped table-hover book-table">
-          <thead>
-            <tr>
-              <th/>
-              <th>Title</th>
-              <th>Author(s)</th>
-              <th>ISBN</th>
-              <th>Categories</th>
-              <th>Options</th>
-            </tr>
-          </thead>
+          <SortTableHead
+            currentSortKey={sortKey}
+            isReverse={sortReverse}
+            toggleSort={updateSortKey}
+          >
+            <th/>
+            <SortHeaderCell sortKey="title">
+              Title
+            </SortHeaderCell>
+            <SortHeaderCell sortKey="authors">
+              Author(s)
+            </SortHeaderCell>
+            <SortHeaderCell sortKey="isbn">
+              ISBN
+            </SortHeaderCell>
+            <SortHeaderCell sortKey="categories">
+              Categories
+            </SortHeaderCell>
+            <th>
+              Options
+            </th>
+          </SortTableHead>
           <tbody>
             {filteredBooks.length === 0
               ? <tr className="no-hover">
@@ -137,6 +153,8 @@ export const mapStateToProps = (state: AppState, ownProps: BaseProps): StateProp
 
   return {
     filterTerm: tableInformation ? tableInformation.filterTerm : '',
+    sortKey: tableInformation ? tableInformation.sortKey : 'title',
+    sortReverse: tableInformation ? tableInformation.sortReverse : false,
   };
 };
 
@@ -144,6 +162,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<TableAction>, ownProps: Ba
   {
     updateCurrentPage: (page: number) => dispatch(actions.updateCurrentPage(ownProps.uniqueTableKey, page)),
     updateFilterTerm: (term: string) => dispatch(actions.updateFilterTerm(ownProps.uniqueTableKey, term)),
+    updateSortKey: (sortKey: string) => dispatch(actions.updateSortKey(ownProps.uniqueTableKey, sortKey)),
   }
 );
 

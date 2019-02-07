@@ -6,3 +6,4 @@ export { MediaList } from './MediaList';
 export { PaginatedBookList } from './PaginatedBookList';
 export { Paginator } from './Paginator';
 export { QuickOptionsList } from './QuickOptionsList';
+export { SortHeaderCell, SortTableHead } from './SortHeader';
