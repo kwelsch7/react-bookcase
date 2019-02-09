@@ -71,9 +71,9 @@
     position: relative;
     cursor: default;
     padding: 0.5rem 0.625rem;
-    background-color: lighten($secondary, 15%);
-    border: 1px solid lighten($secondary, 10%);
-    color: $secondary-dark;
+    background-color: lighten($secondary, 8%);
+    border: 1px solid lighten($secondary, 2%);
+    color: darken($secondary-dark, 2%);
 
     &::before {
       position: absolute;
@@ -87,9 +87,9 @@
     }
 
     &:hover {
-      background-color: lighten($secondary, 8%);
-      border: 1px solid lighten($secondary, 2%);
-      color: darken($secondary-dark, 6%);
+      background-color: lighten($secondary, 12%);
+      border: 1px solid lighten($secondary, 8%);
+      color: lighten($secondary-dark, 4%);
 
       &::before {
         left: -0.625rem;
@@ -98,26 +98,24 @@
     }
 
     &.in-list {
-      // Change color!!
-      background-color: red;
-      border: 1px solid darken(red, 6%);
-      color: darken($secondary-dark, 6%);
+      background-color: $red;
+      border: 1px solid darken($red, 6%);
+      color: darken($secondary-dark, 8%);
 
       &::before {
         content: '\f30a';
       }
 
       &:hover {
-        background-color: lighten(red, 8%);
-        border: 1px solid lighten(red, 2%);
+        background-color: lighten($red, 8%);
+        border: 1px solid lighten($red, 2%);
         color: $secondary-dark;
       }
     }
 
     &.move-to-list {
-      // Change color!!
-      background-color: lighten(purple, 8%);
-      border: 1px solid lighten(purple, 2%);
+      background-color: $purple;
+      border: 1px solid darken($purple, 6%);
       color: darken($secondary-dark, 6%);
 
       &::before {
@@ -125,8 +123,8 @@
       }
 
       &:hover {
-        background-color: lighten(purple, 15%);
-        border: 1px solid lighten(purple, 8%);
+        background-color: lighten($purple, 8%);
+        border: 1px solid lighten($purple, 2%);
         color: $secondary-dark;
       }
     }
@@ -163,6 +161,7 @@
   }
 
   thead th {
+    user-select: none;
     position: sticky;
     top: 0;
     z-index: 1;

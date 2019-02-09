@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { BookSortKey } from '../constants';
 import { Book } from '../models';
 import { AppState } from '../redux';
 import * as actions from '../redux/tables/actions';
@@ -15,14 +16,14 @@ interface BaseProps {
 
 interface StateProps {
   filterTerm: string;
-  sortKey: string;
+  sortKey: BookSortKey;
   sortReverse: boolean;
 }
 
 interface DispatchProps {
   updateCurrentPage(page: number): void;
   updateFilterTerm(term: string): void;
-  updateSortKey(sortKey: string): void;
+  updateSortKey(sortKey: BookSortKey): void;
 }
 
 type BookTableProps = BaseProps & StateProps & DispatchProps;
@@ -85,7 +86,7 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
                   <td>{book.title}</td>
                   <td>{book.authors && book.authors.join(', ')}</td>
                   <td>
-                    {this.getISBN(book) && this.getISBN(book).identifier}
+                    {book.isbn}
                   </td>
                   <td>{book.categories && book.categories.join(', ')}</td>
                   <td>
@@ -99,8 +100,6 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
       </React.Fragment>
     );
   }
-
-  private getISBN = (book: Book) => book.industryIdentifiers && book.industryIdentifiers.find(isbn => isbn.type === 'ISBN_13');
 
   public filterBooks(): Book[] {
     const books = this.props.books;
@@ -127,7 +126,7 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
           }
         }
       }
-      if (this.getISBN(book) && this.getISBN(book).identifier.includes(filterTerm)) {
+      if (book.isbn && book.isbn.includes(filterTerm)) {
         return true;
       }
 
@@ -149,12 +148,12 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
 };
 
 export const mapStateToProps = (state: AppState, ownProps: BaseProps): StateProps => {
-  const tableInformation = state.tableState[ownProps.uniqueTableKey];
+  const { filterTerm, sortKey, sortReverse } = state.tableState[ownProps.uniqueTableKey];
 
   return {
-    filterTerm: tableInformation ? tableInformation.filterTerm : '',
-    sortKey: tableInformation ? tableInformation.sortKey : 'title',
-    sortReverse: tableInformation ? tableInformation.sortReverse : false,
+    filterTerm,
+    sortKey,
+    sortReverse,
   };
 };
 
@@ -162,7 +161,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<TableAction>, ownProps: Ba
   {
     updateCurrentPage: (page: number) => dispatch(actions.updateCurrentPage(ownProps.uniqueTableKey, page)),
     updateFilterTerm: (term: string) => dispatch(actions.updateFilterTerm(ownProps.uniqueTableKey, term)),
-    updateSortKey: (sortKey: string) => dispatch(actions.updateSortKey(ownProps.uniqueTableKey, sortKey)),
+    updateSortKey: (sortKey: BookSortKey) => dispatch(actions.updateSortKey(ownProps.uniqueTableKey, sortKey)),
   }
 );
 

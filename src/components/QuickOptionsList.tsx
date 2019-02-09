@@ -164,9 +164,9 @@ class QuickOptionsComponent extends React.PureComponent<QuickOptionListProps, Qu
 
 const mapStateToProps = (state: AppState): StateProps => (
   {
-    amReadingBooks: getAmReadingBooks(state.bookcaseState),
-    haveReadBooks: getHaveReadBooks(state.bookcaseState),
-    wishlistBooks: getWishlistBooks(state.bookcaseState),
+    amReadingBooks: getAmReadingBooks(state),
+    haveReadBooks: getHaveReadBooks(state),
+    wishlistBooks: getWishlistBooks(state),
   }
 );
 

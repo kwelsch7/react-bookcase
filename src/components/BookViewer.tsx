@@ -11,7 +11,6 @@ export const BookViewer: React.SFC<BookViewerProps> = ({ book }) => {
     return <h4 className="h5">See books here!</h4>;
   }
 
-  const isbn13 = book.industryIdentifiers && book.industryIdentifiers.find(isbn => isbn.type === 'ISBN_13');
   let imgSrc = '';
   if (book.imageLinks) {
     const { extraLarge, large, medium, small, smallThumbnail, thumbnail } = book.imageLinks;
@@ -28,9 +27,9 @@ export const BookViewer: React.SFC<BookViewerProps> = ({ book }) => {
             {book.authors &&
               <h5 className="card-subtitle mb-2 text-muted">{book.authors.join(', ')}</h5>
             }
-            {isbn13 &&
+            {book.isbn &&
               <h5 className="card-subtitle mb-2">
-                {isbn13.identifier}
+                {book.isbn}
               </h5>
             }
           </div>

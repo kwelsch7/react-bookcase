@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { BookSortKey } from '../constants'; 
 
 interface SortHeaderCellProps {
   isReverse?: boolean;
   isSorted?: string;
-  sortKey: string;
+  sortKey: BookSortKey;
   toggleSort?(sortKey: string): void;
 }
 
@@ -37,7 +38,7 @@ export class SortHeaderCell extends React.PureComponent<SortHeaderCellProps> {
 
 interface SortTableProps {
   className?: string;
-  currentSortKey: string;
+  currentSortKey: BookSortKey;
   isReverse: boolean;
   toggleSort(sortKey: string): void;
 }

@@ -2,12 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
+import { tableKeys } from '../constants';
 import { Book } from '../models';
 import { AppState, getWishlistBooks } from '../redux';
 
 interface WishlistProps {
   books?: Book[];
 }
+
+const uniqueTableKey = tableKeys.wishlist;
 
 export class WishlistView extends React.PureComponent<WishlistProps> {
   constructor(props: WishlistProps) {
@@ -31,7 +34,7 @@ export class WishlistView extends React.PureComponent<WishlistProps> {
           ? <BookTable
               books={books}
               filterPlaceholder="Filter Wishlist..."
-              uniqueTableKey="wishlist-table"
+              uniqueTableKey={uniqueTableKey}
             />
           : <h3>No list. Analysis paralysis strikes again!</h3>
         }
@@ -42,7 +45,7 @@ export class WishlistView extends React.PureComponent<WishlistProps> {
 
 const mapStateToProps = (state: AppState): WishlistProps => (
   {
-    books: getWishlistBooks(state.bookcaseState),
+    books: getWishlistBooks(state, uniqueTableKey),
   }
 );
 

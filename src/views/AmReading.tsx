@@ -2,12 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
+import { tableKeys } from '../constants';
 import { Book } from '../models';
 import { AppState, getAmReadingBooks } from '../redux';
 
 interface AmReadingProps {
   books?: Book[];
 }
+
+const uniqueTableKey = tableKeys.amReading;
 
 export class AmReadingView extends React.PureComponent<AmReadingProps> {
   constructor(props: AmReadingProps) {
@@ -32,7 +35,7 @@ export class AmReadingView extends React.PureComponent<AmReadingProps> {
           ? <BookTable
               books={books}
               filterPlaceholder="Filter Am Reading..."
-              uniqueTableKey="am-reading-table"
+              uniqueTableKey={uniqueTableKey}
             />
           : <h3>Nothing here. Better get started!</h3>
         }
@@ -43,7 +46,7 @@ export class AmReadingView extends React.PureComponent<AmReadingProps> {
 
 const mapStateToProps = (state: AppState): AmReadingProps => (
   {
-    books: getAmReadingBooks(state.bookcaseState),
+    books: getAmReadingBooks(state, uniqueTableKey),
   }
 );
 

@@ -35,7 +35,8 @@ export interface Book {
   publisher: string;
   publishedDate: string;
   description: string;
-  industryIdentifiers: ISBNTypes[];
+  industryIdentifiers?: ISBNTypes[];
+  isbn?: string; // Mapped via pre-parsing industryIdentifiers immediately on API return
   pageCount: number;
   mainCategory?: string; // Doesn't appear to be defined very often if at all
   categories?: string[]; // is usually defined

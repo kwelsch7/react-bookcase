@@ -2,12 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../components';
+import { tableKeys } from '../constants';
 import { Book } from '../models';
 import { AppState, getHaveReadBooks } from '../redux';
 
 interface HaveReadProps {
   books?: Book[];
 }
+
+const uniqueTableKey = tableKeys.haveRead;
 
 export class HaveReadView extends React.PureComponent<HaveReadProps> {
   constructor(props: HaveReadProps) {
@@ -32,7 +35,7 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
           ? <BookTable
               books={books}
               filterPlaceholder="Filter Have Read..."
-              uniqueTableKey="have-read-table"
+              uniqueTableKey={uniqueTableKey}
             />
           : <h3>Nothing to see here! Go read some more :D</h3>
         }
@@ -43,7 +46,7 @@ export class HaveReadView extends React.PureComponent<HaveReadProps> {
 
 const mapStateToProps = (state: AppState): HaveReadProps => (
   {
-    books: getHaveReadBooks(state.bookcaseState),
+    books: getHaveReadBooks(state, uniqueTableKey),
   }
 );
 

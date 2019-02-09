@@ -1,5 +1,6 @@
 import { Action } from 'redux';
 import * as types from './actionTypes';
+import { BookSortKey } from '../../constants';
 
 interface TableAction extends Action {
   key: string;
@@ -14,7 +15,7 @@ export interface FilterTermAction extends TableAction {
 }
 
 export interface SortAction extends TableAction {
-  sortKey: string;
+  sortKey: BookSortKey;
 }
 
 export const updateCurrentPage = (key: string, page: number): NumericTableAction => (
@@ -41,7 +42,7 @@ export const updateFilterTerm = (key: string, filterTerm: string): FilterTermAct
   }
 );
 
-export const updateSortKey = (tableKey: string, sortKey: string): SortAction => (
+export const updateSortKey = (tableKey: string, sortKey: BookSortKey): SortAction => (
   {
     sortKey,
     key: tableKey,
