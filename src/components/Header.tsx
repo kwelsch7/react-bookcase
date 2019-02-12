@@ -40,6 +40,11 @@ export const Header: React.SFC = () => (
           </NavLink>
         </li>
         <li className="nav-item">
+          <NavLink className="nav-link" activeClassName="active" exact to="/stats">
+            <i className="fas fa-chart-line pr-1"/> Statistics
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink className="nav-link" activeClassName="active" exact to="/register">
             <i className="fas fa-tools pr-1"/> "Created" Books
           </NavLink>

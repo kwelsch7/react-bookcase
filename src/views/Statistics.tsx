@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classnames from 'classnames';
+import { BarChart } from '../components';
 import { Book } from '../models';
 import { AppState, getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from '../redux';
 
@@ -10,14 +11,20 @@ interface StatisticsProps {
   wishlistBooks: Book[];
 }
 
+interface StatisticsState {
+  currentChart: ChartType;
+}
+
 type ChartType = 'Bar'|'Pie'|'Radar';
 
-export class StatisticsView extends React.PureComponent<StatisticsProps> {
+export class StatisticsView extends React.PureComponent<StatisticsProps, StatisticsState> {
   constructor(props: StatisticsProps) {
     super(props);
+    this.state = { currentChart: 'Bar' };
   }
 
   public render() {
+    const { currentChart } = this.state;
     return (
       <React.Fragment>
         <h2>
@@ -27,23 +34,27 @@ export class StatisticsView extends React.PureComponent<StatisticsProps> {
         <p>
           A rudimentary analysis of the types of books you're into!
           Categories can be viewed with bar, radar, and pie charts, 
-          and bookshelves can be toggled by clicking on the legend!
+          and bookshelves can be toggled by clicking on the legend.
         </p>
         <div className="row">
-          <div className="col">
+          <div className="col-auto">
             <ul className="list-unstyled list-group chart-picker-list">
-              <ChartPickerItem active={} type="Bar" switchCharts={} />
-              <ChartPickerItem active={} type="Radar" switchCharts={} />
-              <ChartPickerItem active={} type="Pie" switchCharts={} />
+              <ChartPickerItem currentChart={currentChart} type="Bar" switchCharts={this.switchCharts} />
+              <ChartPickerItem currentChart={currentChart} type="Radar" switchCharts={this.switchCharts} />
+              <ChartPickerItem currentChart={currentChart} type="Pie" switchCharts={this.switchCharts} />
             </ul>
           </div>
           <div className="col">
-            {/* Actual chart */}
+            {currentChart === 'Bar' &&
+              <BarChart height={400} width={500} />
+            }
           </div>
         </div>
       </React.Fragment>
     );
   }
+
+  private switchCharts = (type: ChartType): void => this.setState({ currentChart: type });
 }
 
 const mapStateToProps = (state: AppState): StatisticsProps => (
@@ -57,7 +68,7 @@ const mapStateToProps = (state: AppState): StatisticsProps => (
 export const StatisticsPage = connect(mapStateToProps)(StatisticsView);
 
 interface ChartPickerItemProps {
-  active: boolean;
+  currentChart: ChartType;
   type: ChartType;
   switchCharts(type: ChartType): void;
 }
@@ -76,10 +87,11 @@ class ChartPickerItem extends React.PureComponent<ChartPickerItemProps> {
   }
 
   public render() {
-    const { active, type } = this.props;
+    const { currentChart, type } = this.props;
+    const classes = classnames('list-group-item', { active: type === currentChart });
 
     return (
-      <li className={classnames('list-group-item', { active })} onClick={this.handleListItemClick}>
+      <li className={classes} onClick={this.handleListItemClick}>
         <i className={this.iconClass}/>
         {type}
       </li>
