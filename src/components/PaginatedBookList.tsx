@@ -60,7 +60,7 @@ class BookListItem extends React.PureComponent<BookListItemProps> {
 
   public render() {
     const { active, book } = this.props;
-     return (
+    return (
       <li className={`list-group-item${active ? ' active' : ''}`} onClick={this.handleListItemClick}>
         <div>
           <h4>{book.title}</h4>
@@ -70,7 +70,7 @@ class BookListItem extends React.PureComponent<BookListItemProps> {
         </div>
         <QuickOptionsList book={book} />
       </li>
-     );
+    );
   }
 
   private handleListItemClick = () => this.props.handleListItemClick(this.props.book);

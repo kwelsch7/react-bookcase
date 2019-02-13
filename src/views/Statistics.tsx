@@ -46,7 +46,7 @@ export class StatisticsView extends React.PureComponent<StatisticsProps, Statist
           </div>
           <div className="col">
             {currentChart === 'Bar' &&
-              <BarChart height={400} width={500} />
+              <BarChart data={this.props.haveReadBooks} height={400} width={800} />
             }
           </div>
         </div>
