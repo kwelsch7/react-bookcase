@@ -24,6 +24,7 @@ export class StatisticsView extends React.PureComponent<StatisticsProps, Statist
   }
 
   public render() {
+    const { amReadingBooks, haveReadBooks, wishlistBooks } = this.props;
     const { currentChart } = this.state;
     return (
       <React.Fragment>
@@ -45,9 +46,19 @@ export class StatisticsView extends React.PureComponent<StatisticsProps, Statist
             </ul>
           </div>
           <div className="col">
-            {currentChart === 'Bar' &&
-              <BarChart data={this.props.haveReadBooks} height={400} width={800} />
-            }
+            <div className="card">
+              <div className="card-body">
+                {currentChart === 'Bar' &&
+                  <BarChart
+                    amReadingBooks={amReadingBooks}
+                    haveReadBooks={haveReadBooks}
+                    wishlistBooks={wishlistBooks}
+                    height={400}
+                    width={900}
+                  />
+                }
+              </div>
+            </div>
           </div>
         </div>
       </React.Fragment>
