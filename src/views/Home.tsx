@@ -50,25 +50,10 @@ export class HomePage extends React.PureComponent {
           </div>
           <div className="col">
             <h3>Get Started!</h3>
-            <div>
-              <Link to="/search-books" className="start-links link-arrow">
-                <i className="fas fa-search pr-2 mr-1" />
-                Search books
-              </Link>
-            </div>
-            <h3>Or, update your current lists:</h3>
-            <div>
-              <Link to="/am-reading" className="start-links link-arrow">
-                <i className="fas fa-book-reader pr-2 mr-1"/>
-                Am Reading
-              </Link>
-            </div>
-            <div>
-              <Link to="/wishlist" className="start-links link-arrow">
-                <i className="fas fa-bookmark pr-2 mr-1"/>
-                Wishlist
-              </Link>
-            </div>
+            <Link to="/search-books" className="start-links link-arrow">
+              <i className="fas fa-search pr-2 mr-1" />
+              Search books
+            </Link>
           </div>
         </div>
         <h3 className="h5 mt-3 mb-3">

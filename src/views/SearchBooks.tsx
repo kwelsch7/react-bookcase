@@ -56,7 +56,8 @@ class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksS
         </h2>
         <p>
           Find books to add to your collection.
-          If you can't find one, <Link to="/register" className="underline-effect">make one!</Link>
+          Enter a search, select an item in the list, and decide where to put it!
+          {/* If you can't find one, <Link to="/register" className="underline-effect">make one!</Link> */}
         </p>
         <div className="row">
           <div className="col-6">

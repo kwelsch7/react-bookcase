@@ -30,30 +30,11 @@ a.underline-effect {
     padding: 1.5rem 1rem;
     margin-bottom: 1rem;
     margin-left: 0.5rem;
-    background: linear-gradient(to left, lighten($accent, 10%), lighten($accent, 35%));
-    background-size: 200% 100%;
     font-size: 1.25rem;
-    transition: color 0.2s, background-position 0.2s;
-
-    &::before {
-        position: absolute;
-        top: 0;
-        right: -1.5rem;
-        height: 100%;
-        width: 1.5rem;
-        background-color: lighten($accent, 22%);
-        clip-path: polygon(0 0, 0 100%, 10% 100%, 100% 50%, 10% 0);
-        content: '';
-        transition: background-color 0.2s;
-    }
+    transition: color 0.2s;
 
     &:hover {
         text-decoration: none;
-        background-position: 25% 0%;
-
-        &::before {
-          background-color: lighten($accent, 19%);
-        }
     }
 }
 

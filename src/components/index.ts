@@ -1,4 +1,5 @@
 export { BarChart } from './BarChart';
+export { BarChartAndLegend } from './BarChartAndLegend';
 export { BookTable } from './BookTable';
 export { BookViewer } from './BookViewer';
 export { Footer } from './Footer';

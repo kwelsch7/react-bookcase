@@ -1,21 +1,18 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-import { Book } from '../models';
 import * as _ from 'lodash';
+import { ColorsObject, TypesString } from './BarChartAndLegend';
+import { Book } from '../models';
 
 interface BarChartProps {
   amReadingBooks: Book[];
   haveReadBooks: Book[];
   wishlistBooks: Book[];
+  barColors: ColorsObject;
+  showingTypes: TypesString[];
   height: number;
   width: number;
 }
-
-const barColors = {
-  amReading: '#81F4E1',
-  haveRead: '#89023E',
-  wishlist: '#907AD6',
-};
 
 export class BarChart extends React.PureComponent<BarChartProps> {
   private svgRef: SVGSVGElement;
@@ -64,11 +61,15 @@ export class BarChart extends React.PureComponent<BarChartProps> {
   }
 
   private getBarStackForCategory(category: string): JSX.Element {
+    const { barColors, showingTypes } = this.props;
+    const includeHaveRead = showingTypes.includes('haveRead');
+    const includeAmReading = showingTypes.includes('amReading');
+    const includeWishlist = showingTypes.includes('wishlist');
     const { amReading, haveRead, wishlist } = this.categoriesCountMap;
     const chartHeight = this.getHeight();
-    const firstHeight = chartHeight - this.yScale(haveRead[category] || 0);
-    const secondHeight = chartHeight - this.yScale(amReading[category] || 0);
-    const thirdHeight = chartHeight - this.yScale(wishlist[category] || 0);
+    const firstHeight = includeHaveRead ? chartHeight - this.yScale(haveRead[category] || 0) : 0;
+    const secondHeight = includeAmReading ? chartHeight - this.yScale(amReading[category] || 0) : 0;
+    const thirdHeight = includeWishlist ? chartHeight - this.yScale(wishlist[category] || 0) : 0;
 
     return (
       <React.Fragment key={category}>
@@ -119,6 +120,7 @@ export class BarChart extends React.PureComponent<BarChartProps> {
   private drawAxes() {
     this.drawXAxis();
     this.drawYAxis();
+    // Add markers -- https://www.youtube.com/watch?v=4Tl_o7muaNk
   }
 
   private setupCategories(books: Book[]): { [key: string]: number } {
@@ -164,7 +166,6 @@ export class BarChart extends React.PureComponent<BarChartProps> {
       d3.scaleBand()
         .domain(this.allCategories)
         .rangeRound([0, this.getWidth()])
-        // .orient('bottom') // instead of height - everything??
         .padding(0.1);
   }
 
@@ -173,7 +174,6 @@ export class BarChart extends React.PureComponent<BarChartProps> {
       d3.scaleLinear()
         .domain([0, this.maxCountSum])
         .rangeRound([this.getHeight(), 0]);
-        // .tickFormat(d3.format('.0f');
   }
 
   private drawXAxis() {
@@ -183,7 +183,7 @@ export class BarChart extends React.PureComponent<BarChartProps> {
   private drawYAxis() {
     d3.select(this.yAxisRef)
       .transition(this.transition)
-      .call(d3.axisLeft(this.yScale)); // No decimals on ticks?
+      .call(d3.axisLeft(this.yScale).ticks(4));
   }
 }
 
@@ -204,7 +204,8 @@ class Bar extends React.PureComponent<BarProps> {
   }
 
   public componentDidUpdate(prevProps: BarProps) {
-    if (prevProps.height !== this.props.height) {
+    if (prevProps.height !== this.props.height
+        || prevProps.y !== this.props.y) {
       this.updateHeight();
     }
   }

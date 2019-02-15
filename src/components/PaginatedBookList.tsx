@@ -37,7 +37,7 @@ export const PaginatedBookList: React.SFC<BookListProps>
               </span>
             </li>
         : <li>
-            <span>Loading books...</span>
+            <h4>Loading books...</h4>
           </li>
       }
     </ul>

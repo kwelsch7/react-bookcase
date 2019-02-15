@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classnames from 'classnames';
-import { BarChart } from '../components';
+import { BarChartAndLegend } from '../components';
 import { Book } from '../models';
 import { AppState, getAmReadingBooks, getHaveReadBooks, getWishlistBooks } from '../redux';
 
@@ -49,12 +49,10 @@ export class StatisticsView extends React.PureComponent<StatisticsProps, Statist
             <div className="card">
               <div className="card-body">
                 {currentChart === 'Bar' &&
-                  <BarChart
+                  <BarChartAndLegend
                     amReadingBooks={amReadingBooks}
                     haveReadBooks={haveReadBooks}
                     wishlistBooks={wishlistBooks}
-                    height={400}
-                    width={900}
                   />
                 }
               </div>

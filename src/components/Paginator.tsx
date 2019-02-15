@@ -34,11 +34,11 @@ export class Paginator extends React.PureComponent<PaginatorProps, PaginatorStat
     const { showingHigh, showingLow, pageRange, totalPages } = this.state;
     return (
       <React.Fragment>
-        <nav className="mt-3 mb-2">
+        <nav className="mt-3 d-flex justify-content-center">
           <ul className="pagination">
             <li className={`page-item mr-3${activePage === 1 ? ' disabled' : ''}`}>
               <Link onClick={this.handlePrevClick} className="page-link" to={{ search: `?page=${activePage - 1}` }} aria-label="Previous">
-                <span aria-hidden="true">&laquo; Previous</span>
+                <span aria-hidden="true"><i className="fas fa-long-arrow-alt-left"/> Prev</span>
               </Link>
             </li>
             {pageRange.map(pageNumber =>(
@@ -51,7 +51,7 @@ export class Paginator extends React.PureComponent<PaginatorProps, PaginatorStat
             ))}
             <li className={`page-item ml-3${activePage === totalPages ? ' disabled' : ''}`}>
               <Link onClick={this.handleNextClick} className="page-link" to={{ search: `?page=${activePage + 1}` }} aria-label="Next">
-                <span aria-hidden="true">Next &raquo;</span>
+                <span aria-hidden="true">Next <i className="fas fa-long-arrow-alt-right"/></span>
               </Link>
             </li>
           </ul>
