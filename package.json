@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/webpack",
-    "start": "npm run build && node server.js"
+    "start": "npm run build && node server.js",
+    "deploy": "npm run build && aws s3 cp dist s3://bookcase.kwelsch.com --recursive"
   },
   "repository": {
     "type": "git",
