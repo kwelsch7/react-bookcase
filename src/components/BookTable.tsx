@@ -138,7 +138,7 @@ export class BookTableClass extends React.PureComponent<BookTableProps> {
     const waitTime = 400;
     const text = e.target.value;
     clearTimeout(this.timeOut);
-    this.timeOut = setTimeout(() => {
+    this.timeOut = window.setTimeout(() => {
       this.props.updateFilterTerm(text);
       this.resetPage();
     }, waitTime);

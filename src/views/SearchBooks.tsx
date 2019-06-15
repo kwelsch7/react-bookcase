@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { searchBooks } from '../api/GoogleBooks';
 import { BookViewer, PaginatedBookList } from '../components';
@@ -25,7 +24,7 @@ interface DispatchProps {
   updateTotalBooks: (total: number) => void;
 }
 
-interface SearchBooksState {
+export interface SearchBooksState {
   books?: Book[];
   error?: string;
   fetchingBooks: boolean;
@@ -36,9 +35,9 @@ interface SearchBooksState {
   totalBooks: number;
 }
 
-type SearchBooksProps = StateProps & DispatchProps;
+export type SearchBooksProps = StateProps & DispatchProps;
 
-class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksState> {
+export class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksState> {
   constructor(props: SearchBooksProps) {
     super(props);
     const { books, page, query, selectedBook, totalBooks } = props;
@@ -128,7 +127,7 @@ class SearchBooksView extends React.PureComponent<SearchBooksProps, SearchBooksS
         this.props.updateTotalBooks(totalItems);
       })
       .catch(error => this.setState({ error, fetchingBooks: false }));
-  };
+  }
 
   private handleSubmit = (event: any) => {
     event.preventDefault();
