@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/kwelsch7/react-bookcase#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "4.1.3",
     "classnames": "^2.2.6",
     "d3": "^5.9.1",
